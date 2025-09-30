@@ -1,3 +1,4 @@
+%%writefile app.py
 import streamlit as st
 import pickle
 import pandas as pd
@@ -25,19 +26,22 @@ st.write('Enter the details of the outlet to predict its quality.')
 # Create input fields for each feature
 input_data = {}
 for feature in feature_names:
-    # You might need to customize the input type based on the feature's data type
+    # Use number_input for numerical features
     if feature in ['SKU_count', 'Avg_Sales', 'Willingness_Organic', 'Willingness_Atta', 'Willingness_Ghee', 'Willingness_Oil', 'Willingness_Beverage', 'Willingness_Bakery', 'Importance_of_AMUL', 'Reputation_of_Store']:
-        input_data[feature] = st.number_input(f'Enter {feature}', value=0)
-    elif feature in ['Self_Service_No', 'Self_Service_Yes', 'Cold_Storage_No', 'Cold_Storage_Yes']:
-        input_data[feature] = st.selectbox(f'Select {feature.replace("_", " ").replace("No", "No").replace("Yes", "Yes")}', [0, 1])
+        input_data[feature] = st.number_input(f'Enter {feature.replace("_", " ")}', value=0)
+    # Use selectbox for one-hot encoded categorical features
+    elif feature in ['Self_Service_No', 'Self_Service_Yes']:
+         input_data[feature] = st.selectbox(f'Self Service:', [0, 1], format_func=lambda x: 'No' if x == 0 else 'Yes')
     elif feature in ['Customer_Can_Browse_Full View and Choice', 'Customer_Can_Browse_No Entry']:
-         input_data[feature] = st.selectbox(f'Select {feature.replace("Customer_Can_Browse_", "").replace("Full View and Choice", "Full View and Choice").replace("No Entry", "No Entry")}', [0, 1])
+         input_data[feature] = st.selectbox(f'Customer Can Browse:', [0, 1], format_func=lambda x: 'Full View and Choice' if x == 1 else 'No Entry')
     elif feature in ['Shop_Type _Convenience store', 'Shop_Type _General trade', 'Shop_Type _Modern trade']:
-         input_data[feature] = st.selectbox(f'Select {feature.replace("Shop_Type _", "")}', [0, 1])
+         input_data[feature] = st.selectbox(f'Shop Type:', [0, 1], format_func=lambda x: feature.replace("Shop_Type _", ""))
+    elif feature in ['Cold_Storage_No', 'Cold_Storage_Yes']:
+         input_data[feature] = st.selectbox(f'Cold Storage:', [0, 1], format_func=lambda x: 'No' if x == 0 else 'Yes')
     elif feature in ['Shelf_Space_20-30ft', 'Shelf_Space_30-40ft', 'Shelf_Space_40-50ft', 'Shelf_Space_<20ft', 'Shelf_Space_>50ft']:
-         input_data[feature] = st.selectbox(f'Select {feature.replace("Shelf_Space_", "")}', [0, 1])
+         input_data[feature] = st.selectbox(f'Shelf Space:', [0, 1], format_func=lambda x: feature.replace("Shelf_Space_", ""))
     else:
-        input_data[feature] = st.text_input(f'Enter {feature}')
+        input_data[feature] = st.text_input(f'Enter {feature.replace("_", " ")}')
 
 
 if st.button('Predict'):
