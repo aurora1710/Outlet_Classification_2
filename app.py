@@ -16,9 +16,9 @@ try:
     # For demonstration, let's define a placeholder for expected columns based on the notebook state
     # Replace with actual loading of saved column names in a production app
     expected_columns = ['No', 'SKU_count', 'Avg_Sales', 'Willingness_Organic', 'Willingness_Atta', 'Willingness_Ghee', 'Willingness_Oil', 'Willingness_Beverage', 'Willingness_Bakery', 'Importance_of_AMUL', 'Reputation_of_Store', 'Self_Service_Yes', 'Customer_Can_Browse_Partial View', 'Customer_Can_Browse_No Entry', 'Shop_Type_Modern trade', 'Cold_Storage_Yes', 'Shelf_Space_20-30ft', 'Shelf_Space_30-40ft', 'Shelf_Space_40-50ft', 'Shelf_Space_<20ft', 'Shelf_Space_>50ft'] # Example based on notebook's X.columns
-except FileNotFoundError:
-    st.error("Model or scaler file not found. Please ensure 'OC_logistic_regression_model.pkl' and 'scaler.pkl' are in the same directory.")
-    st.stop()
+#except FileNotFoundError:
+    #st.error("Model or scaler file not found. Please ensure 'OC_logistic_regression_model.pkl' and 'scaler.pkl' are in the same directory.")
+    #st.stop()
 
 
 st.title('Outlet Classification Predictor')
